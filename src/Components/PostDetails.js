@@ -26,10 +26,10 @@ import * as yup from "yup";
 //https://react-query.tanstack.com/guides/optimistic-updates
 
 const PostDetails = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   console.log(id);
   const [post, setPost] = useState([]);
-
+  const userId = 2; //TODO get this from authorizations
   async function fetchingPost(id) {
     //console.log("hi");
     //console.log(id);
@@ -38,9 +38,9 @@ const PostDetails = () => {
     console.log(response.data[0]);
     return setPost(postDetails);
   }
-  console.log(post)
+  console.log(post);
   useEffect(() => {
-  //dayjs.extend(relativeTime);
+    //dayjs.extend(relativeTime);
     fetchingPost(id);
   }, []);
 
@@ -50,20 +50,20 @@ const PostDetails = () => {
 
   const formik = useFormik({
     initialValues: {
-      body: "",
-      userId: "2",
+      comment: "",
+      title: "",
     },
     onSubmit: async (values) => {
       formik.resetForm();
-      const response = await api.addComment(id, values.body);
+      const response = await api.addComment(userId, id, values);
       console.log(response);
       return fetchingPost(id);
     },
     validationSchema: userSchema,
   });
 
-  const user = post.comments
-  console.log(user)
+  const user = post.comments;
+  console.log(user);
   return (
     <Grid container direction="column" alignItems="center" justify="center">
       <Card sx={{ width: "80%", justifyContent: "center", margin: "15px" }}>
@@ -77,7 +77,6 @@ const PostDetails = () => {
                 sx={{ fontWeight: "bold" }}
               >
                 {post.title}
-      
               </Typography>
             }
             subheader={
@@ -192,9 +191,9 @@ const PostDetails = () => {
             minRows={3}
             placeholder="Comment!"
             style={{ width: "99%" }}
-            name="body"
+            name="comment"
             onChange={formik.handleChange}
-            value={formik.values.body}
+            value={formik.values.comment}
           />
           <Box margin="10px" sx={{ ml: "80%" }}>
             <Button

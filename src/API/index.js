@@ -8,4 +8,4 @@ export const getPostById = (id) => API.get(`/post/${id}`)
 
 export const addPost = (id,newPost) => API.post(`/post/${id}`, newPost)
 
-export const addComment = (id, newComment) => API.post(`/posts/${id}/comment`, newComment)
+export const addComment = (userId, postId, newComment) => API.post(`/post/comment/${userId}/${postId}`, newComment)
