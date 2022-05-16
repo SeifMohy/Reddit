@@ -14,34 +14,33 @@ import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import CommentIcon from "@mui/icons-material/Comment";
 import Divider from "@mui/material/Divider";
-import { red } from "@mui/material/colors";
 import { useParams } from "react-router-dom";
 import * as api from "../API";
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import * as dayjs from "dayjs"
-import * as relativeTime from 'dayjs/plugin/relativeTime'
-import { useDispatch, useSelector } from "react-redux";
-
-//https://react-query.tanstack.com/guides/optimistic-updates 
+//import * as dayjs from "dayjs";
+//import * as relativeTime from "dayjs/plugin/relativeTime";
+//import { useDispatch, useSelector } from "react-redux";
+//https://api.tawwr.com/users
+//https://react-query.tanstack.com/guides/optimistic-updates
 
 const PostDetails = () => {
-  const { id } = useParams();
-  //console.log(id);
+  const {id} = useParams();
+  console.log(id);
   const [post, setPost] = useState([]);
 
   async function fetchingPost(id) {
-    console.log("hi");
+    //console.log("hi");
     //console.log(id);
-    const response = await api.getPostById(id);
-    const postDetails = response.data.data;
-    //console.log(response.data.data)
+    const response = await api.getPostById(+id);
+    const postDetails = response.data[0];
+    console.log(response.data[0]);
     return setPost(postDetails);
   }
-
+  console.log(post)
   useEffect(() => {
-    dayjs.extend(relativeTime)
+  //dayjs.extend(relativeTime);
     fetchingPost(id);
   }, []);
 
@@ -56,13 +55,15 @@ const PostDetails = () => {
     },
     onSubmit: async (values) => {
       formik.resetForm();
-      const response = await api.addComment(id, values);
+      const response = await api.addComment(id, values.body);
       console.log(response);
       return fetchingPost(id);
     },
     validationSchema: userSchema,
   });
 
+  const user = post.comments
+  console.log(user)
   return (
     <Grid container direction="column" alignItems="center" justify="center">
       <Card sx={{ width: "80%", justifyContent: "center", margin: "15px" }}>
@@ -76,9 +77,15 @@ const PostDetails = () => {
                 sx={{ fontWeight: "bold" }}
               >
                 {post.title}
+      
               </Typography>
             }
-            subheader={post.userId + " " + dayjs(post.createdAt).format("MMMM D, YYYY h:mm A")}
+            subheader={
+              post.userId
+              // +
+              // " " +
+              // dayjs(post.createdAt).format("MMMM D, YYYY h:mm A")
+            }
           />
         </Box>
         <Divider variant="middle" />
@@ -143,10 +150,10 @@ const PostDetails = () => {
               elevation={0}
               sx={{ width: "100%", justifyContent: "center", margin: "5px" }}
             >
-              <CardHeader avatar={<Avatar></Avatar>} title={com.userId} />
+              <CardHeader avatar={<Avatar></Avatar>} title={com.user} />
               <CardContent>
                 <Typography variant="body2" color="text.primary">
-                  {com.body}
+                  {com.comment}
                 </Typography>
               </CardContent>
 

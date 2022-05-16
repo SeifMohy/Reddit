@@ -20,7 +20,8 @@ function App() {
       <Navigation />
       <Routes>
         <Route path="/" element={<Posts />}/>
-        <Route path="/:id" element={<PostDetails />}/>
+        <Route path="/post/comments/:id" element={<PostDetails />}/>
+        <Route path="/post/:id" element={<PostDetails />}/>
       </Routes>
     </Box>
   );

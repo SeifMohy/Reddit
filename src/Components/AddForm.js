@@ -24,7 +24,7 @@ const AddForm = () => {
     setOpen(false);
   };
   const dispatch = useDispatch();
-
+  const userId = 2; //TODO: getting user id from authentication
   const userSchema = yup.object({
     title: yup.string().required("Required"),
     body: yup.string().max(240, "240 Words Limit"),
@@ -34,12 +34,13 @@ const AddForm = () => {
     initialValues: {
       title: "",
       body: "",
-      userId: 2,
+      tags: "1", //TODO: add tags drop down
     },
     onSubmit: (values) => {
+      console.log(values);
       formik.resetForm();
       handleClose();
-      dispatch(addPost(values));   //dispatching adding
+      dispatch(addPost(userId, values)); //dispatching adding
     },
     validationSchema: userSchema,
   });

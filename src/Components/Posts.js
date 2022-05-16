@@ -13,29 +13,12 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import CommentIcon from "@mui/icons-material/Comment";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { Link } from "react-router-dom";
-import * as api from "../API";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getPosts } from "../Actions/PostActions";
+import { useSelector } from "react-redux";
 
 const Posts = () => {
-  //const [posts, setPosts] = useState([]);
-
-  //   async function fetchingPosts() {
-  //     console.log("hi");
-  //     const response = await api.getPosts();
-  //     const postsDetails = response.data.data;
-  //     console.log(response.data.data);
-  //     return setPosts(postsDetails);
-  //   }
-  
   const posts = useSelector((state) => {
-    console.log(state);
     return state.posts;
   });
-
-  console.log(posts)
-
 
   if (!posts || posts.length === 0) return <h1>loading...</h1>;
   return (
@@ -48,8 +31,8 @@ const Posts = () => {
           >
             <CardHeader
               avatar={<Avatar></Avatar>}
-              title={post.userId}
-              subheader={post.createdAt}
+              title={post.user.firstName + " " + post.user.lastName}
+              subheader={post.date} //use dayjs.
             />
             <CardContent>
               <Typography
@@ -107,7 +90,7 @@ const Posts = () => {
                 >
                   Open Post
                 </Typography>
-                <Link to={`/${post.id}`}>
+                <Link to={`post/${post.id}`}>
                   <IconButton>
                     <ArrowForwardIcon />
                   </IconButton>

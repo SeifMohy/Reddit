@@ -1,11 +1,11 @@
 import axios from "axios"
 
-const API = axios.create({baseURL: "https://api.tawwr.com"})
+const API = axios.create({baseURL: "http://localhost:7080"})
 
-export const getPosts = () => API.get("/posts")
+export const getPosts = () => API.get("/")
 
-export const getPostById = (id) => API.get(`/posts/${id}`)
+export const getPostById = (id) => API.get(`/post/${id}`)
 
-export const addPost = (newPost) => API.post("/posts", newPost)
+export const addPost = (id,newPost) => API.post(`/post/${id}`, newPost)
 
 export const addComment = (id, newComment) => API.post(`/posts/${id}/comment`, newComment)
