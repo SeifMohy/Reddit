@@ -125,7 +125,7 @@ const PostDetails = () => {
             >
               {post.downVotesTotal}
             </Typography>
-            <IconButton disabled="true">
+            <IconButton disabled={true}>
               <CommentIcon />
             </IconButton>
             <Typography

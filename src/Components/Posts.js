@@ -11,17 +11,21 @@ import Typography from "@mui/material/Typography";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import CommentIcon from "@mui/icons-material/Comment";
-import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButton from "@mui/material/ToggleButton";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
+import * as api from "../API";
+
 
 const Posts = () => {
   const posts = useSelector((state) => {
     return state.posts;
   });
-  const [selected, setSelected] = React.useState(false);
+  // const [selected, setSelected] = React.useState(false);
+  const userId = 2; //TODO: getting user id from authentication
+
   if (!posts || posts.length === 0) return <h1>loading...</h1>;
   return (
     <Grid container direction="column" alignItems="center" justify="center">
@@ -39,7 +43,7 @@ const Posts = () => {
                 ></Avatar>
               }
               title={post.user.firstName + " " + post.user.lastName}
-              subheader={moment(post.date).format("MMMM DD YYYY")} 
+              subheader={moment(post.date).format("MMMM DD YYYY")}
             />
             <CardContent>
               <Typography
@@ -56,24 +60,28 @@ const Posts = () => {
 
             <CardActions
               sx={{ justifyContent: "space-between", margin: "5px" }}
-            >
-              <Box>
-                <ToggleButton
-                  selected={selected}
-                  onChange={() => {
-                    setSelected(!selected);
+            > 
+            {/* TODO: change button color when clicked */}
+              <Box> 
+                <IconButton
+                  onClick={async () => {
+                    await api.addLike(userId, post.id, {value: true})
                   }}
                 >
                   <ThumbUpIcon />
-                </ToggleButton>
+                </IconButton>
                 <Typography
                   variant="subtitle"
                   color="text.action"
                   sx={{ fontSize: 14 }}
                 >
-                  {post.upVotesTotal}
+                  {post.likes?.filter((likes) => likes.value === true).length}
                 </Typography>
-                <IconButton>
+                <IconButton
+                  onClick={async () => {
+                    await api.addLike(userId, post.id, {value: false})
+                  }}
+                >
                   <ThumbDownAltIcon />
                 </IconButton>
                 <Typography
@@ -81,9 +89,9 @@ const Posts = () => {
                   color="text.action"
                   sx={{ fontSize: 14 }}
                 >
-                  {post.downVotesTotal}
+                  {post.likes?.filter((likes) => likes.value === false).length}
                 </Typography>
-                <IconButton disabled="true">
+                <IconButton disabled={true}>
                   <CommentIcon />
                 </IconButton>
                 <Typography
