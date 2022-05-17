@@ -8,6 +8,7 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import AddForm from "./AddForm";
+import NavBarAvatar from "./NavBarAvatar"
 
 const Navigation = () => {
   const Search = styled("div")(({ theme }) => ({
@@ -61,6 +62,7 @@ const Navigation = () => {
             </SearchIconWrapper>
             <StyledInputBase placeholder="Search…" />
           </Search>
+          <NavBarAvatar />
           <AddForm />
         </Toolbar>
       </AppBar>

@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import * as api from "../API";
-
+import { addLike } from "../Actions/PostActions";
 
 const Posts = () => {
   const posts = useSelector((state) => {
@@ -25,6 +25,7 @@ const Posts = () => {
   });
   // const [selected, setSelected] = React.useState(false);
   const userId = 2; //TODO: getting user id from authentication
+  const dispatch = useDispatch()
 
   if (!posts || posts.length === 0) return <h1>loading...</h1>;
   return (
@@ -65,7 +66,7 @@ const Posts = () => {
               <Box> 
                 <IconButton
                   onClick={async () => {
-                    await api.addLike(userId, post.id, {value: true})
+                    dispatch(addLike(userId, post.id, {value: true}))
                   }}
                 >
                   <ThumbUpIcon />
@@ -79,7 +80,7 @@ const Posts = () => {
                 </Typography>
                 <IconButton
                   onClick={async () => {
-                    await api.addLike(userId, post.id, {value: false})
+                    dispatch(addLike(userId, post.id, {value: false}))
                   }}
                 >
                   <ThumbDownAltIcon />

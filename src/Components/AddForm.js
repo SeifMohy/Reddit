@@ -14,6 +14,7 @@ import * as yup from "yup";
 import { addPost } from "../Actions/PostActions";
 import { useDispatch, useSelector } from "react-redux";
 
+
 const AddForm = () => {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -47,15 +48,14 @@ const AddForm = () => {
 
   return (
     <div>
-      <IconButton
+      <Button
         onClick={handleClickOpen}
-        size="large"
-        edge="end"
-        color="inherit"
+        variant="contained"
+        color="error"
         sx={{ mr: 2 }}
       >
-        <MenuIcon color="action" />
-      </IconButton>
+        Add A New Post
+      </Button>
       <Dialog fullWidth maxWidth="sm" open={open} onClose={handleClose}>
         <DialogTitle>Add Post!</DialogTitle>
         <DialogContent>

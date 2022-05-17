@@ -20,35 +20,25 @@ import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import moment from "moment";
-
-//https://react-query.tanstack.com/guides/optimistic-updates
-
-// moment.relativeTimeRounding(Math.floor);
-
-// moment.relativeTimeThreshold('s', 60);
-// moment.relativeTimeThreshold('m', 60);
-//moment.relativeTimeThreshold('h', 24);
-//moment.relativeTimeThreshold('d', 31);
-//moment.relativeTimeThreshold('M', 12);
+import { addLike, getPostById } from "../Actions/PostActions";
+import { useDispatch, useSelector } from "react-redux";
 
 const PostDetails = () => {
   const { id } = useParams();
   console.log(id);
   const [post, setPost] = useState([]);
   const userId = 2; //TODO get this from authorizations
+  const dispatch = useDispatch();
+
   async function fetchingPost(id) {
-    //console.log("hi");
-    //console.log(id);
-    const response = await api.getPostById(+id);
-    const postDetails = response.data[0];
-    console.log(response.data[0]);
-    return setPost(postDetails);
+    const post = await dispatch(getPostById(id));
+    console.log(post[0]);
+    return setPost(post[0]);
   }
   console.log(post);
   useEffect(() => {
-    //dayjs.extend(relativeTime);
     fetchingPost(id);
-  }, []);
+  }, [setPost]);
 
   const userSchema = yup.object({
     body: yup.string().max(240, "240 Words Limit"),
@@ -105,7 +95,11 @@ const PostDetails = () => {
 
         <CardActions sx={{ justifyContent: "space-between", margin: "5px" }}>
           <Box>
-            <IconButton>
+            <IconButton
+              onClick={async () => {
+                dispatch(addLike(userId, post.id, { value: true }));
+              }}
+            >
               <ThumbUpIcon />
             </IconButton>
             <Typography
@@ -113,9 +107,13 @@ const PostDetails = () => {
               color="text.action"
               sx={{ fontSize: 14 }}
             >
-              {post.upVotesTotal}
+              {post.likes?.filter((likes) => likes.value === true).length}
             </Typography>
-            <IconButton>
+            <IconButton
+              onClick={async () => {
+                dispatch(addLike(userId, post.id, { value: false }));
+              }}
+            >
               <ThumbDownAltIcon />
             </IconButton>
             <Typography
@@ -123,7 +121,7 @@ const PostDetails = () => {
               color="text.action"
               sx={{ fontSize: 14 }}
             >
-              {post.downVotesTotal}
+              {post.likes?.filter((likes) => likes.value === false).length}
             </Typography>
             <IconButton disabled={true}>
               <CommentIcon />
