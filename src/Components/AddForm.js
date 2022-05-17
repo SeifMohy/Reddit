@@ -54,7 +54,7 @@ const AddForm = () => {
         color="error"
         sx={{ mr: 2 }}
       >
-        Add A New Post
+        New Post
       </Button>
       <Dialog fullWidth maxWidth="sm" open={open} onClose={handleClose}>
         <DialogTitle>Add Post!</DialogTitle>

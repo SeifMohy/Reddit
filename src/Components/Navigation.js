@@ -20,7 +20,7 @@ const Navigation = () => {
       borderColor: "red",
     },
     [theme.breakpoints.up("sm")]: {
-      width: "80%",
+      width: "70%",
     },
   }));
 

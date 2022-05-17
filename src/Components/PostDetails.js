@@ -32,7 +32,7 @@ const PostDetails = () => {
 
   async function fetchingPost(id) {
     const post = await dispatch(getPostById(id));
-    console.log(post[0]);
+    //console.log(post[0]);
     return setPost(post[0]);
   }
   console.log(post);
