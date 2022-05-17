@@ -19,11 +19,17 @@ import * as api from "../API";
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-//import * as dayjs from "dayjs";
-//import * as relativeTime from "dayjs/plugin/relativeTime";
-//import { useDispatch, useSelector } from "react-redux";
-//https://api.tawwr.com/users
+import moment from "moment";
+
 //https://react-query.tanstack.com/guides/optimistic-updates
+
+// moment.relativeTimeRounding(Math.floor);
+
+// moment.relativeTimeThreshold('s', 60);
+// moment.relativeTimeThreshold('m', 60);
+//moment.relativeTimeThreshold('h', 24);
+//moment.relativeTimeThreshold('d', 31);
+//moment.relativeTimeThreshold('M', 12);
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -62,14 +68,18 @@ const PostDetails = () => {
     validationSchema: userSchema,
   });
 
-  const user = post.comments;
-  console.log(user);
+  console.log(post);
   return (
     <Grid container direction="column" alignItems="center" justify="center">
       <Card sx={{ width: "80%", justifyContent: "center", margin: "15px" }}>
         <Box>
           <CardHeader
-            avatar={<Avatar></Avatar>}
+            avatar={
+              <Avatar
+                sx={{ width: 62, height: 62 }}
+                src={post.user?.imgUrl}
+              ></Avatar>
+            }
             title={
               <Typography
                 variant="title"
@@ -80,10 +90,9 @@ const PostDetails = () => {
               </Typography>
             }
             subheader={
-              post.userId
-              // +
-              // " " +
-              // dayjs(post.createdAt).format("MMMM D, YYYY h:mm A")
+              post.user?.firstName +
+              " - " +
+              moment(post.date).format("MMMM D, YYYY h:mm A")
             }
           />
         </Box>
@@ -116,7 +125,7 @@ const PostDetails = () => {
             >
               {post.downVotesTotal}
             </Typography>
-            <IconButton>
+            <IconButton disabled="true">
               <CommentIcon />
             </IconButton>
             <Typography
@@ -124,7 +133,7 @@ const PostDetails = () => {
               color="text.action"
               sx={{ fontSize: 14 }}
             >
-              {post.commentsTotal}
+              {post.comments?.length}
             </Typography>
           </Box>
         </CardActions>
@@ -142,49 +151,70 @@ const PostDetails = () => {
           }
         />
         <Divider variant="middle" />
-        {post.comments?.map((com) => {
-          return (
-            <Card
-              key={com.id}
-              elevation={0}
-              sx={{ width: "100%", justifyContent: "center", margin: "5px" }}
-            >
-              <CardHeader avatar={<Avatar></Avatar>} title={com.user} />
-              <CardContent>
-                <Typography variant="body2" color="text.primary">
-                  {com.comment}
-                </Typography>
-              </CardContent>
+        {/* {console.log(post.comments.user)} //TODO: Fix the map */}
+        {post.comments ? (
+          post.comments.map((com) => {
+            return (
+              <Card
+                key={com.id}
+                elevation={0}
+                sx={{ width: "100%", justifyContent: "center", margin: "5px" }}
+              >
+                <CardHeader
+                  title={
+                    <Typography
+                      variant="title"
+                      color="text.primary"
+                      sx={{ fontWeight: "bold" }}
+                    >
+                      {com.user.firstName}
+                    </Typography>
+                  }
+                  avatar={
+                    <Avatar
+                      sx={{ width: 62, height: 62 }}
+                      src={com.user.imgUrl}
+                    ></Avatar>
+                  }
+                />
+                <CardContent>
+                  <Typography variant="body2" color="text.primary">
+                    {com.comment}
+                  </Typography>
+                </CardContent>
 
-              <CardActions sx={{ justifyContent: "space-between" }}>
-                <Box>
-                  <Typography
-                    variant="subtitle"
-                    color="text.action"
-                    sx={{ fontSize: 14 }}
-                  >
-                    4d ago
-                  </Typography>
-                  <Typography
-                    variant="subtitle"
-                    color="text.action"
-                    margin="5px"
-                    sx={{ fontSize: 14 }}
-                  >
-                    .
-                  </Typography>
-                  <Typography
-                    variant="subtitle"
-                    color="text.action"
-                    sx={{ fontSize: 14 }}
-                  >
-                    Reply
-                  </Typography>
-                </Box>
-              </CardActions>
-            </Card>
-          );
-        })}
+                <CardActions sx={{ justifyContent: "space-between" }}>
+                  <Box>
+                    <Typography
+                      variant="subtitle"
+                      color="text.action"
+                      sx={{ fontSize: 14 }}
+                    >
+                      {moment(com.date).fromNow()}
+                    </Typography>
+                    <Typography
+                      variant="subtitle"
+                      color="text.action"
+                      margin="5px"
+                      sx={{ fontSize: 14 }}
+                    >
+                      .
+                    </Typography>
+                    <Typography
+                      variant="subtitle"
+                      color="text.action"
+                      sx={{ fontSize: 14 }}
+                    >
+                      Reply
+                    </Typography>
+                  </Box>
+                </CardActions>
+              </Card>
+            );
+          })
+        ) : (
+          <div>no comments yet</div>
+        )}
 
         <Box margin="10px" sx={{ justifyContent: "space-evenly" }}>
           <TextareaAutosize

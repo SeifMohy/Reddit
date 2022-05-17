@@ -11,15 +11,17 @@ import Typography from "@mui/material/Typography";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import CommentIcon from "@mui/icons-material/Comment";
+import ToggleButton from '@mui/material/ToggleButton';
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 const Posts = () => {
   const posts = useSelector((state) => {
     return state.posts;
   });
-
+  const [selected, setSelected] = React.useState(false);
   if (!posts || posts.length === 0) return <h1>loading...</h1>;
   return (
     <Grid container direction="column" alignItems="center" justify="center">
@@ -30,9 +32,14 @@ const Posts = () => {
             sx={{ width: "80%", justifyContent: "center", margin: "15px" }}
           >
             <CardHeader
-              avatar={<Avatar></Avatar>}
+              avatar={
+                <Avatar
+                  sx={{ width: 62, height: 62 }}
+                  src={post.user?.imgUrl}
+                ></Avatar>
+              }
               title={post.user.firstName + " " + post.user.lastName}
-              subheader={post.date} //use dayjs.
+              subheader={moment(post.date).format("MMMM DD YYYY")} 
             />
             <CardContent>
               <Typography
@@ -51,9 +58,14 @@ const Posts = () => {
               sx={{ justifyContent: "space-between", margin: "5px" }}
             >
               <Box>
-                <IconButton>
+                <ToggleButton
+                  selected={selected}
+                  onChange={() => {
+                    setSelected(!selected);
+                  }}
+                >
                   <ThumbUpIcon />
-                </IconButton>
+                </ToggleButton>
                 <Typography
                   variant="subtitle"
                   color="text.action"
@@ -71,7 +83,7 @@ const Posts = () => {
                 >
                   {post.downVotesTotal}
                 </Typography>
-                <IconButton>
+                <IconButton disabled="true">
                   <CommentIcon />
                 </IconButton>
                 <Typography
@@ -79,7 +91,7 @@ const Posts = () => {
                   color="text.action"
                   sx={{ fontSize: 14 }}
                 >
-                  {post.commentsTotal}
+                  {post.comments.length}
                 </Typography>
               </Box>
               <Box>
