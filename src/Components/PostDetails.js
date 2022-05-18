@@ -15,7 +15,6 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import CommentIcon from "@mui/icons-material/Comment";
 import Divider from "@mui/material/Divider";
 import { useParams } from "react-router-dom";
-import * as api from "../API";
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -25,7 +24,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 const PostDetails = () => {
   const { id } = useParams();
-  console.log(id);
   const [post, setPost] = useState({});
 
   const userId = 2; //TODO get this from authorization
@@ -35,7 +33,6 @@ const PostDetails = () => {
     return state.posts;
   });
 
-  console.log(post);
   useEffect(() => {
     const item = posts.find((post) => {
       return post.id === +id;
@@ -47,7 +44,7 @@ const PostDetails = () => {
   }, [posts]);
 
   const userSchema = yup.object({
-    body: yup.string().max(240, "240 Words Limit"),
+    body: yup.string().max(240, "240 Character Limit"),
   });
 
   const formik = useFormik({
@@ -60,8 +57,6 @@ const PostDetails = () => {
     },
     validationSchema: userSchema,
   });
-
-  console.log(post.comments);
 
   const sortedComments = post.comments?.sort((a, b) => a.id - b.id)
   return (
@@ -83,21 +78,25 @@ const PostDetails = () => {
                   <Typography
                     variant="title"
                     color="text.primary"
-                    sx={{ fontWeight: "bold" }}
+                    sx={{ fontWeight: "bold", fontSize: "23px" }}
                   >
                     {post.title}
                   </Typography>
                 }
                 subheader={
-                  post?.user.firstName +
+                  <Typography sx={{ fontSize: "17px", color: "text.secondary" }}>
+                    {
+                  post?.user.firstName + " " + post?.user.lastName +
                   " - " +
                   moment(post.date).format("MMMM D, YYYY h:mm A")
+                }
+                  </Typography>
                 }
               />
             </Box>
             <Divider variant="middle" />
-            <CardContent>
-              <Typography variant="body2" color="text.primary" margin="5px">
+            <CardContent sx={{ pb:0 }}>
+              <Typography sx={{  fontSize: "17px" }} variant="body2" color="text.primary">
                 {post.body}
               </Typography>
             </CardContent>
@@ -147,13 +146,14 @@ const PostDetails = () => {
               </Box>
             </CardActions>
           </Card>
-          <Card sx={{ width: "80%", justifyContent: "center", margin: "15px" }}>
+          <Card sx={{ width: "80%", justifyContent: "center", margin: "5px" }}>
             <CardHeader
+            sx={{ fontWeight: "bold", p:3 }}
               title={
                 <Typography
                   variant="h6"
                   color="text.primary"
-                  sx={{ fontWeight: "bold" }}
+                  sx={{ fontWeight: "bold", fontSize: "21px"}}
                 >
                   Comments!
                 </Typography>
@@ -171,39 +171,35 @@ const PostDetails = () => {
                     elevation={0}
                     sx={{
                       width: "100%",
-                      justifyContent: "center",
-                      margin: "5px",
+                      margin: "3px",
+                      display: 'flex', flexDirection: 'row'
                     }}
                   >
                     <CardHeader
-                      title={
-                        <Typography
-                          variant="title"
-                          color="text.primary"
-                          sx={{ fontWeight: "bold" }}
-                        >
-                          {com.user?.firstName}
-                        </Typography>
-                      }
+                    sx={{ p: 2, pb: 0, pr:0, alignItems: 'flex-start'}}
                       avatar={
                         <Avatar
-                          sx={{ width: 62, height: 62 }}
+                          sx={{ width: 58, height: 58 }}
                           src={com.user?.imgUrl}
                         ></Avatar>
                       }
                     />
-                    <CardContent>
-                      <Typography variant="body2" color="text.primary">
+                    <CardContent sx={{ pt: 2, pl:0, alignContent: 'center' }}>
+                    <Typography 
+                          variant="title"
+                          color="text.primary"
+                          sx={{ fontWeight: "bold", fontSize: "17px" }}
+                        >
+                          {com.user?.firstName + " " + com.user?.lastName}
+                        </Typography>
+                      <Typography sx={{ pt: 1, pb:1, fontSize: "17px" }} variant="body2" color="text.primary">
                         {com.comment}
                       </Typography>
-                    </CardContent>
-
-                    <CardActions sx={{ justifyContent: "space-between" }}>
                       <Box>
                         <Typography
                           variant="subtitle"
                           color="text.action"
-                          sx={{ fontSize: 14 }}
+                          sx={{ fontSize: "17px" }}
                         >
                           {moment(com.date).fromNow()}
                         </Typography>
@@ -211,19 +207,19 @@ const PostDetails = () => {
                           variant="subtitle"
                           color="text.action"
                           margin="5px"
-                          sx={{ fontSize: 14 }}
+                          sx={{ fontSize: "17px"}}
                         >
                           .
                         </Typography>
                         <Typography
                           variant="subtitle"
                           color="text.action"
-                          sx={{ fontSize: 14 }}
+                          sx={{ fontSize: "17px", fontWeight: "medium" }}
                         >
                           Reply
                         </Typography>
                       </Box>
-                    </CardActions>
+                    </CardContent>
                   </Card>
                 );
               })

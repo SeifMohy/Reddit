@@ -28,7 +28,7 @@ const AddForm = () => {
   const userId = 2; //TODO: getting user id from authentication
   const userSchema = yup.object({
     title: yup.string().required("Required"),
-    body: yup.string().max(240, "240 Words Limit"),
+    body: yup.string().max(500, "240 Character Limit"),
   });
 
   const formik = useFormik({

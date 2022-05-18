@@ -25,7 +25,7 @@ const NavBarAvatar = () => {
     <div>
       <Avatar
         onClick={handleClick}
-        sx={{ width: 60, height: 60 }}
+        sx={{ width: 58, height: 58 }}
         src="https://randomuser.me/api/portraits/women/2.jpg" //TODO: Get from authentication
       ></Avatar>
       <Popover

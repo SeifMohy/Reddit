@@ -19,16 +19,18 @@ import { addLike } from "../Actions/PostActions";
 
 const Posts = () => {
   const posts = useSelector((state) => {
-    console.log(state.posts)
+    console.log(state.posts);
     return state.posts;
   });
   // const [selected, setSelected] = React.useState(false);
   const userId = 2; //TODO: getting user id from authentication
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
- const sortedPosts = posts.sort((a, b) =>b.comments.length - a.comments.length)
+  const sortedPosts = posts.sort(
+    (a, b) => b.comments.length - a.comments.length
+  );
 
-  if (!posts || posts.length === 0) return <h1>loading...</h1>
+  if (!posts || posts.length === 0) return <h1>loading...</h1>;
   return (
     <Grid container direction="column" alignItems="center" justify="center">
       {sortedPosts.map((post) => {
@@ -38,36 +40,44 @@ const Posts = () => {
             sx={{ width: "80%", justifyContent: "center", margin: "15px" }}
           >
             <CardHeader
+            sx={{ p: 2, pb: 0 }}
               avatar={
                 <Avatar
-                  sx={{ width: 62, height: 62 }}
+                  sx={{ width: 58, height: 58 }}
                   src={post.user?.imgUrl}
                 ></Avatar>
               }
-              title={post.user.firstName + " " + post.user.lastName}
-              subheader={moment(post.date).format("MMMM DD YYYY")}
+              title={
+                <Typography sx={{ fontWeight: "bold", fontSize: "17px" }}>
+                  {post.user.firstName + " " + post.user.lastName}
+                </Typography>
+              }
+              subheader={
+                <Typography sx={{ fontSize: "17px", color: "text.secondary" }}>
+                  {moment(post.date).format("MMMM DD YYYY, h:mm a")}
+                </Typography>
+              }
             />
-            <CardContent>
+            <CardContent
+            sx={{ p: 2, pb: 0 }}
+            >
               <Typography
-                variant="title"
                 color="text.primary"
-                sx={{ fontWeight: "bold" }}
+                sx={{ fontWeight: "bold", fontSize: "20px" }}
               >
                 {post.title}
               </Typography>
-              <Typography variant="body2" color="text.primary" margin="5px">
+              <Typography sx={{ pt:1, fontSize: "17px" }} variant="body2" color="text.primary">
                 {post.body}
               </Typography>
             </CardContent>
 
-            <CardActions
-              sx={{ justifyContent: "space-between", margin: "5px" }}
-            > 
-            {/* TODO: change button color when clicked */}
-              <Box> 
+            <CardActions sx={{ justifyContent: "space-between", margin: "" }}>
+              {/* TODO: change button color when clicked */}
+              <Box>
                 <IconButton
                   onClick={async () => {
-                    dispatch(addLike(userId, post.id, {value: true}))
+                    dispatch(addLike(userId, post.id, { value: true }));
                   }}
                 >
                   <ThumbUpIcon />
@@ -81,7 +91,7 @@ const Posts = () => {
                 </Typography>
                 <IconButton
                   onClick={async () => {
-                    dispatch(addLike(userId, post.id, {value: false}))
+                    dispatch(addLike(userId, post.id, { value: false }));
                   }}
                 >
                   <ThumbDownAltIcon />
