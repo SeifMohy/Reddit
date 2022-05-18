@@ -25,11 +25,13 @@ const Posts = () => {
   // const [selected, setSelected] = React.useState(false);
   const userId = 2; //TODO: getting user id from authentication
   const dispatch = useDispatch()
-  
+
+ const sortedPosts = posts.sort((a, b) =>b.comments.length - a.comments.length)
+
   if (!posts || posts.length === 0) return <h1>loading...</h1>
   return (
     <Grid container direction="column" alignItems="center" justify="center">
-      {posts.map((post) => {
+      {sortedPosts.map((post) => {
         return (
           <Card
             key={post.id}

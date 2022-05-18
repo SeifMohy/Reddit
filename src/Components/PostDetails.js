@@ -56,14 +56,14 @@ const PostDetails = () => {
     },
     onSubmit: async (values) => {
       formik.resetForm();
-      // const {data} = await api.addComment(userId, id, values);
-      // dispatch({ type: "ADD_COMMENT", payload: {data, id} });
-      dispatch(addComment(userId, id, values))
+      dispatch(addComment(userId, id, values));
     },
     validationSchema: userSchema,
   });
 
   console.log(post.comments);
+
+  const sortedComments = post.comments?.sort((a, b) => a.id - b.id)
   return (
     <>
       {Object.keys(post).length === 0 ? (
@@ -163,8 +163,8 @@ const PostDetails = () => {
             {/* {console.log(post.comments.user)} //TODO: Fix the map */}
             {post.comments.length === 0 ? (
               <div>no comments yet</div>
-            ) : post.comments !== undefined? (
-              post.comments.map((com) => {
+            ) : post.comments !== undefined ? (
+              sortedComments.map((com) => {
                 return (
                   <Card
                     key={com.id}
@@ -227,7 +227,7 @@ const PostDetails = () => {
                   </Card>
                 );
               })
-            ): null}
+            ) : null}
 
             <Box margin="10px" sx={{ justifyContent: "space-evenly" }}>
               <TextareaAutosize
