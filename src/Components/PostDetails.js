@@ -58,7 +58,7 @@ const PostDetails = () => {
       formik.resetForm();
       // const {data} = await api.addComment(userId, id, values);
       // dispatch({ type: "ADD_COMMENT", payload: {data, id} });
-      //dispatch(addComment(userId, id, values))
+      dispatch(addComment(userId, id, values))
     },
     validationSchema: userSchema,
   });

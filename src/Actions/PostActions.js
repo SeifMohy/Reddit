@@ -42,13 +42,13 @@ export const addLike = (userId, postId, value) => async (dispatch) => {
 //   }
 // };
 
-// export const addComment = (userId, postId, newComment) => async (dispatch) => {
-//   try {
-//     console.log("trying to add comment");
-//     await api.addComment(userId, postId, newComment);
-//     const response = await api.getPosts();
-//     dispatch({ type: "ADD_COMMENT", payload: response.data });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+export const addComment = (userId, postId, newComment) => async (dispatch) => {
+  try {
+    console.log("trying to add comment");
+    await api.addComment(userId, postId, newComment);
+    const response = await api.getPosts();
+    dispatch({ type: "ADD_COMMENT", payload: response.data });
+  } catch (err) {
+    console.log(err);
+  }
+};
