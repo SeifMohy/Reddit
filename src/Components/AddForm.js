@@ -52,7 +52,7 @@ const AddForm = () => {
         onClick={handleClickOpen}
         variant="contained"
         color="error"
-        sx={{ mr: 2 }}
+        sx={{ mr: 2, width: "100%" }}
       >
         New Post
       </Button>
