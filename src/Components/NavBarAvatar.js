@@ -56,7 +56,7 @@ const NavBarAvatar = () => {
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton component="a" href="#simple-list">
-              <ListItemText primary="Sing Out" />
+              <ListItemText primary="Sign Out" />
             </ListItemButton>
           </ListItem>
         </List>

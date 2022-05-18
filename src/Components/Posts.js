@@ -11,23 +11,22 @@ import Typography from "@mui/material/Typography";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import CommentIcon from "@mui/icons-material/Comment";
-import ToggleButton from "@mui/material/ToggleButton";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
-import * as api from "../API";
 import { addLike } from "../Actions/PostActions";
 
 const Posts = () => {
   const posts = useSelector((state) => {
+    console.log(state.posts)
     return state.posts;
   });
   // const [selected, setSelected] = React.useState(false);
   const userId = 2; //TODO: getting user id from authentication
   const dispatch = useDispatch()
-
-  if (!posts || posts.length === 0) return <h1>loading...</h1>;
+  
+  if (!posts || posts.length === 0) return <h1>loading...</h1>
   return (
     <Grid container direction="column" alignItems="center" justify="center">
       {posts.map((post) => {

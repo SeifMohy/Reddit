@@ -4,8 +4,9 @@ const reducer = (state = [], action) => {
     case "ADD_LIKE":
     case "FETCH_ALL":
       return action.payload;
-    case "GET_POST_BY_ID":
-      return action.payload;
+    case "ADD_COMMENT":
+    // case "GET_POST_BY_ID":
+    //   return action.payload;
     default:
       return state;
   }

@@ -1,14 +1,14 @@
 import * as api from "../API";
 
 export const getPosts = () => async (dispatch) => {
-    try{
-        console.log("trying to get post");
-        const response = await api.getPosts(); 
-        dispatch({type : "FETCH_ALL", payload: response.data }); 
-        console.log(response)
-    } catch(err){
-        console.log(err); 
-    }
+  try {
+    console.log("trying to get posts");
+    const response = await api.getPosts();
+    dispatch({ type: "FETCH_ALL", payload: response.data });
+    console.log(response);
+  } catch (err) {
+    console.log(err);
+  }
 };
 export const addPost = (id, newPost) => async (dispatch) => {
   try {
@@ -30,14 +30,25 @@ export const addLike = (userId, postId, value) => async (dispatch) => {
     console.log(err);
   }
 };
-export const getPostById = (id) => async (dispatch) => {
-  try {
-    console.log("trying to get post by ID");
-    const response = await api.getPostById(+id);
-    console.log(response.data)
-    dispatch({ type: "GET_POST_BY_ID", payload: response.data });
-    return response.data
-  } catch (err) {
-    console.log(err);
-  }
-};
+// export const getPostById = (id) => async (dispatch) => {
+//   try {
+//     console.log("trying to get post by ID");
+//     const response = await api.getPostById(+id);
+//     console.log(response.data)
+//     dispatch({ type: "GET_POST_BY_ID", payload: response.data });
+//     return response.data
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+
+// export const addComment = (userId, postId, newComment) => async (dispatch) => {
+//   try {
+//     console.log("trying to add comment");
+//     await api.addComment(userId, postId, newComment);
+//     const response = await api.getPosts();
+//     dispatch({ type: "ADD_COMMENT", payload: response.data });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
