@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const API = axios.create({baseURL: "http://localhost:7080"})
+const API = axios.create({baseURL: "http://localhost:7081"})
 
 export const getPosts = () => API.get("/")
 

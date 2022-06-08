@@ -30,17 +30,6 @@ export const addLike = (userId, postId, value) => async (dispatch) => {
     console.log(err);
   }
 };
-// export const getPostById = (id) => async (dispatch) => {
-//   try {
-//     console.log("trying to get post by ID");
-//     const response = await api.getPostById(+id);
-//     console.log(response.data)
-//     dispatch({ type: "GET_POST_BY_ID", payload: response.data });
-//     return response.data
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
 
 export const addComment = (userId, postId, newComment) => async (dispatch) => {
   try {

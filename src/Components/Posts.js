@@ -27,9 +27,9 @@ const Posts = () => {
   const dispatch = useDispatch();
 
   const sortedPosts = posts.sort(
-    (a, b) => b.comments.length - a.comments.length
+    (a, b) => b.id - a.id
   );
-
+console.log(posts)
   if (!posts || posts.length === 0) return <h1>loading...</h1>;
   return (
     <Grid container direction="column" alignItems="center" justify="center">

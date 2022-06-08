@@ -52,7 +52,7 @@ const AddForm = () => {
         onClick={handleClickOpen}
         variant="contained"
         color="error"
-        sx={{ mr: 2, width: "100%" }}
+        sx={{ mx: 1, width: "90%" }}
       >
         New Post
       </Button>
@@ -69,6 +69,7 @@ const AddForm = () => {
             label="Title"
             type="text"
             fullWidth
+            color="error"
             variant="standard"
             onChange={formik.handleChange}
           ></TextField>
@@ -81,6 +82,7 @@ const AddForm = () => {
             type="text"
             fullWidth
             variant="standard"
+            color="error"
             onChange={formik.handleChange}
           ></TextField>
         </DialogContent>
@@ -88,6 +90,7 @@ const AddForm = () => {
           <Button
             type="submit"
             variant="contained"
+            color="error"
             onClick={formik.handleSubmit}
           >
             Submit

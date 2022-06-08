@@ -231,10 +231,12 @@ const PostDetails = () => {
                 placeholder="Comment!"
                 style={{ width: "99%" }}
                 name="comment"
+                color="error"
                 onChange={formik.handleChange}
                 value={formik.values.comment}
+                sx={{ border: 1 }}
               />
-              <Box margin="10px" sx={{ ml: "80%" }}>
+              <Box margin="10px" sx={{ ml: "65%" }}>
                 <Button
                   type="submit"
                   onClick={formik.handleSubmit}
